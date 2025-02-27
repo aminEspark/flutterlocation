@@ -21,14 +21,10 @@ import androidx.core.app.NotificationManagerCompat
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 
-const val kDefaultChannelName: String = "Location background service"
-const val kDefaultNotificationTitle: String = "Location background service running"
-const val kDefaultNotificationIconName: String = "navigation_empty_icon"
-
 data class NotificationOptions(
-    val channelName: String = kDefaultChannelName,
-    val title: String = kDefaultNotificationTitle,
-    val iconName: String = kDefaultNotificationIconName,
+    val channelName: String = "Location background service",
+    val title: String = "Location background service running",
+    val iconName: String = "navigation_empty_icon",
     val subtitle: String? = null,
     val description: String? = null,
     val color: Int? = null,
@@ -84,7 +80,11 @@ class BackgroundNotification(
         notify: Boolean
     ) {
         val iconId = getDrawableId(options.iconName).let {
-            if (it != 0) it else getDrawableId(kDefaultNotificationIconName)
+            try{
+                if (it != 0) it else getDrawableId(kDefaultNotificationIconName)
+            }catch(e:Exception){
+                
+            }
         }
         builder = builder
             .setContentTitle(options.title)
