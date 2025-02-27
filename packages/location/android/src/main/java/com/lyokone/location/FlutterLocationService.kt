@@ -158,10 +158,10 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
 
     override fun onBind(intent: Intent?): IBinder {
         return try {
-            
+            LocalBinder()
         } catch (e: Exception) {
             Log.e(TAG, "Error in onBind: ${e.message}")
-            
+            LocalBinder()
         }
     }
 
