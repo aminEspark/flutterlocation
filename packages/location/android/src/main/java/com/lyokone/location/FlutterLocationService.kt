@@ -88,8 +88,6 @@ class BackgroundNotification(
         }
         builder = builder
             .setContentTitle(options.title)
-            .setSmallIcon(iconId)
-            .setContentText(options.subtitle)
             .setSubText(options.description)
 
         builder = if (options.color != null) {
