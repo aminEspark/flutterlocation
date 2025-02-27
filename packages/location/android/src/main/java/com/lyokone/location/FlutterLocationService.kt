@@ -90,7 +90,7 @@ class BackgroundNotification(
             .setSubText(options.description)
     
         }catch(e: Exception){
-            Log.d(TAG, "error.")
+            Log.d("TAG", "error.")
         }
         
         builder = if (options.color != null) {
