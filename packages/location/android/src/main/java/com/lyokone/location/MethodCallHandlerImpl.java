@@ -194,17 +194,17 @@ final class MethodCallHandlerImpl implements MethodCallHandler {
             String passedChannelName = call.argument("channelName");
             String channelName = passedChannelName != null
                     ? passedChannelName
-                    : FlutterLocationServiceKt.kDefaultChannelName;
+                    : "Location background service";
 
             String passedTitle = call.argument("title");
             String title = passedTitle != null
                     ? passedTitle
-                    : FlutterLocationServiceKt.kDefaultNotificationTitle;
+                    : "Location background service running";
 
             String passedIconName = call.argument("iconName");
             String iconName = passedIconName != null
                     ? passedIconName
-                    : FlutterLocationServiceKt.kDefaultNotificationIconName;
+                    : "navigation_empty_icon";
 
             String subtitle = call.argument("subtitle");
             String description = call.argument("description");
