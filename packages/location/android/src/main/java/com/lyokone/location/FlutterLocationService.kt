@@ -81,7 +81,7 @@ class BackgroundNotification(
     ) {
         val iconId = getDrawableId(options.iconName).let {
             try{
-                if (it != 0) it else getDrawableId(kDefaultNotificationIconName)
+                if (it != 0) it else getDrawableId("Location background service")
             }catch(e:Exception){
                 
             }
