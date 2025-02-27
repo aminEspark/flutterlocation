@@ -156,8 +156,9 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         }
     }
 
-    override fun onBind(intent: Intent?): IBinder {
-        return null
+     override fun onBind(intent: Intent?): IBinder {
+        Log.d(TAG, "Binding to location service.")
+        return binder
     }
 
     override fun onDestroy() {
