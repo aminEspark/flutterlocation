@@ -139,7 +139,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         private const val CHANNEL_ID = "flutter_location_channel_01"
     }
 
-    private val binder = LocalBinder()
+    // private val binder = LocalBinder()
     private var isForeground = false
     private var activity: Activity? = null
     private var backgroundNotification: BackgroundNotification? = null
@@ -156,14 +156,14 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         }
     }
 
-    override fun onBind(intent: Intent?): IBinder {
-        return try {
-            binder
-        } catch (e: Exception) {
-            Log.e(TAG, "Error in onBind: ${e.message}")
-            binder
-        }
-    }
+    // override fun onBind(intent: Intent?): IBinder {
+    //     return try {
+    //         binder
+    //     } catch (e: Exception) {
+    //         Log.e(TAG, "Error in onBind: ${e.message}")
+    //         binder
+    //     }
+    // }
 
     override fun onDestroy() {
         try {
