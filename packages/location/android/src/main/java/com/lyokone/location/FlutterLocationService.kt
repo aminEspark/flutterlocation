@@ -80,11 +80,7 @@ class BackgroundNotification(
         notify: Boolean
     ) {
         val iconId = getDrawableId(options.iconName).let {
-            try{
-                if (it != 0) it else getDrawableId("Location background service")
-            }catch(e:Exception){
-                
-            }
+            if (it != 0) it else getDrawableId("Location background service")
         }
         builder = builder
             .setContentTitle(options.title)
@@ -101,15 +97,6 @@ class BackgroundNotification(
         } else {
             builder.setContentIntent(null)
         }
-
-        // if (notify) {
-        //     try{
-        //         val notificationManager = NotificationManagerCompat.from(context)
-        //         notificationManager.notify(notificationId, builder.build())
-        //     }catch(e:Exception){
-                
-        //     }
-        // }
     }
 
     fun updateOptions(options: NotificationOptions, isVisible: Boolean) {
