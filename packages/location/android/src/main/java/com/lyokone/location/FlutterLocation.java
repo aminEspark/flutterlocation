@@ -422,13 +422,18 @@ public class FlutterLocation
         }
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
                 .addOnSuccessListener(activity, locationSettingsResponse -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && checkPermissions()) {
                         locationManager.addNmeaListener(mMessageListener, null);
+                    }else{
+                       requestPermissions();    
                     }
+                            
 
-                    if (mFusedLocationClient != null) {
+                    if (mFusedLocationClient != null && checkPermissions()) {
                         mFusedLocationClient
                                 .requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                    }else{
+                             requestPermissions();    
                     }
                 }).addOnFailureListener(activity, e -> {
                     if (e instanceof ResolvableApiException) {
