@@ -108,7 +108,7 @@ class BackgroundNotification(
             try{
               val notificationManager = NotificationManagerCompat.from(context)
               notificationManager.notify(notificationId, builder.build())
-            }catch(SecurityException rse){
+            }catch(r : SecurityException){
            
             }
         }
