@@ -422,9 +422,9 @@ public class FlutterLocation
         }
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
                 .addOnSuccessListener(activity, locationSettingsResponse -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        locationManager.addNmeaListener(mMessageListener, null);
-                    }
+                    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    //     locationManager.addNmeaListener(mMessageListener, null);
+                    // }
 
                     if (mFusedLocationClient != null) {
                         mFusedLocationClient
