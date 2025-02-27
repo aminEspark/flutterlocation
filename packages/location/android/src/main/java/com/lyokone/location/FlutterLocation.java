@@ -461,7 +461,7 @@ public class FlutterLocation
                             // observed on some phones.
                             sendError("UNEXPECTED_ERROR", e.getMessage(), null);
                         }
-                            }catch(SecurityException e){
+                            }catch(SecurityException per){
                                                                 Log.i(TAG, "Permission issue.");    
                             }
                                     
