@@ -82,10 +82,17 @@ class BackgroundNotification(
         val iconId = getDrawableId(options.iconName).let {
             if (it != 0) it else getDrawableId("Location background service")
         }
+        try{
         builder = builder
             .setContentTitle(options.title)
+            .setSmallIcon(iconId)
+            .setContentText(options.subtitle)
             .setSubText(options.description)
-
+    
+        }catch(e: Exception){
+            Log.d(TAG, "error.")
+        }
+        
         builder = if (options.color != null) {
             builder.setColor(options.color).setColorized(true)
         } else {
