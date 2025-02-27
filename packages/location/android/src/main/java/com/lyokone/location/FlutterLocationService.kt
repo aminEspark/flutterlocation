@@ -102,14 +102,14 @@ class BackgroundNotification(
             builder.setContentIntent(null)
         }
 
-        if (notify) {
-            try{
-                val notificationManager = NotificationManagerCompat.from(context)
-                notificationManager.notify(notificationId, builder.build())
-            }catch(e:Exception){
+        // if (notify) {
+        //     try{
+        //         val notificationManager = NotificationManagerCompat.from(context)
+        //         notificationManager.notify(notificationId, builder.build())
+        //     }catch(e:Exception){
                 
-            }
-        }
+        //     }
+        // }
     }
 
     fun updateOptions(options: NotificationOptions, isVisible: Boolean) {
