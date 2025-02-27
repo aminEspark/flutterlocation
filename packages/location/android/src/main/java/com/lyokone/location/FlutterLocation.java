@@ -450,7 +450,8 @@ public class FlutterLocation
                     } else {
                         ApiException ae = (ApiException) e;
                         int statusCode = ae.getStatusCode();
-                        if (statusCode == LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE) {// This error code happens during AirPlane mode.
+                            try{
+                                        if (statusCode == LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE) {// This error code happens during AirPlane mode.
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 locationManager.addNmeaListener(mMessageListener, null);
                             }
@@ -460,6 +461,10 @@ public class FlutterLocation
                             // observed on some phones.
                             sendError("UNEXPECTED_ERROR", e.getMessage(), null);
                         }
+                            }catch(SecurityException e){
+                                                                Log.i(TAG, "Permission issue.");    
+                            }
+                                    
                     }
                 });
     }
