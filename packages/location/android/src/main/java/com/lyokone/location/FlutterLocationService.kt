@@ -156,14 +156,14 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         }
     }
 
-    // override fun onBind(intent: Intent?): IBinder {
-    //     return try {
-    //         binder
-    //     } catch (e: Exception) {
-    //         Log.e(TAG, "Error in onBind: ${e.message}")
-    //         binder
-    //     }
-    // }
+    override fun onBind(intent: Intent?): IBinder {
+        return try {
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in onBind: ${e.message}")
+            
+        }
+    }
 
     override fun onDestroy() {
         try {
