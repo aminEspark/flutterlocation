@@ -131,7 +131,7 @@ class BackgroundNotification(
     }
 }
 
-class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResultListener {
+class FlutterLocationService : ExceptionHandlingService(), PluginRegistry.RequestPermissionsResultListener {
     companion object {
         private const val TAG = "FlutterLocationService"
         private const val REQUEST_PERMISSIONS_REQUEST_CODE = 641
