@@ -430,7 +430,7 @@ public class FlutterLocation
                                    if (mFusedLocationClient != null && checkPermissions()) {
                                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                                 }
-                         } catch (Exception sie) {
+                         } catch (SecurityException sie) {
                                 Log.i(TAG, "Permission issue.");
                             }
                    
