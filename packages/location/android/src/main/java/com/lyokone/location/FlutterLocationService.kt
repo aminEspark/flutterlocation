@@ -75,49 +75,49 @@ class BackgroundNotification(
         }
     }
     
-private fun updateNotification(
-    options: NotificationOptions,
-    notify: Boolean
-) {
-    val iconId = getDrawableId(options.iconName).let {
-        if (it != 0) it else getDrawableId("Location background service")
+    private fun updateNotification(
+        options: NotificationOptions,
+        notify: Boolean
+    ) {
+        val iconId = getDrawableId(options.iconName).let {
+            if (it != 0) it else getDrawableId("Location background service")
+        }
+
+        try {
+            builder = builder
+                .setContentTitle(options.title)
+                .setSmallIcon(iconId)
+                .setContentText(options.subtitle)
+                .setSubText(options.description)
+        } catch (e: Exception) {
+            Log.d("TAG", "error.")
+        }
+
+        builder = if (options.color != null) {
+            builder.setColor(options.color).setColorized(true)
+        } else {
+            builder.setColor(0).setColorized(false)
+        }
+
+        builder = if (options.onTapBringToFront) {
+            builder.setContentIntent(buildBringToFrontIntent())
+        } else {
+            builder.setContentIntent(null)
+        }
     }
 
-    try {
-        builder = builder
-            .setContentTitle(options.title)
-            .setSmallIcon(iconId)
-            .setContentText(options.subtitle)
-            .setSubText(options.description)
-    } catch (e: Exception) {
-        Log.d("TAG", "error.")
+    fun updateOptions(options: NotificationOptions, isVisible: Boolean) {
+        if (options.channelName != this.options.channelName) {
+            updateChannel(options.channelName)
+        }
+        updateNotification(options, isVisible)
+        this.options = options
     }
 
-    builder = if (options.color != null) {
-        builder.setColor(options.color).setColorized(true)
-    } else {
-        builder.setColor(0).setColorized(false)
-    }
-
-    builder = if (options.onTapBringToFront) {
-        builder.setContentIntent(buildBringToFrontIntent())
-    } else {
-        builder.setContentIntent(null)
-    }
-}
-
-fun updateOptions(options: NotificationOptions, isVisible: Boolean) {
-    if (options.channelName != this.options.channelName) {
+    fun build(): Notification {
         updateChannel(options.channelName)
+        return builder.build()
     }
-    updateNotification(options, isVisible)
-    this.options = options
-}
-
-fun build(): Notification {
-    updateChannel(options.channelName)
-    return builder.build()
-}
 }
 
 class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResultListener {
