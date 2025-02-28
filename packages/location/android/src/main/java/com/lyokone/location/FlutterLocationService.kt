@@ -22,23 +22,14 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 
 data class NotificationOptions(
-    val channelName: String = "Location background service",
-    val title: String = "Location background service running",
-    val iconName: String = "navigation_empty_icon",
-    val subtitle: String? = null,
-    val description: String? = null,
-    val color: Int? = null,
-    val onTapBringToFront: Boolean = false
+    val channelName: String = "Location background service", val title: String = "Location background service running", val iconName: String = "navigation_empty_icon", val subtitle: String? = null, val description: String? = null, val color: Int? = null, val onTapBringToFront: Boolean = false
 )
 
 class BackgroundNotification(
-    private val context: Context,
-    private val channelId: String,
-    private val notificationId: Int
+    private val context: Context, private val channelId: String, private val notificationId: Int
 ) {
     private var options: NotificationOptions = NotificationOptions()
-    private var builder: NotificationCompat.Builder = NotificationCompat.Builder(context, channelId)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
+    private var builder: NotificationCompat.Builder = NotificationCompat.Builder(context, channelId).setPriority(NotificationCompat.PRIORITY_HIGH)
 
     init {
         updateNotification(options, false)
@@ -49,10 +40,7 @@ class BackgroundNotification(
     }
 
     private fun buildBringToFrontIntent(): PendingIntent? {
-        val intent: Intent? = context.packageManager
-            .getLaunchIntentForPackage(context.packageName)
-            ?.setPackage(null)
-            ?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+        val intent: Intent? = context.packageManager.getLaunchIntentForPackage(context.packageName)?.setPackage(null)?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
         return if (intent != null) {
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -65,30 +53,23 @@ class BackgroundNotification(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = NotificationManagerCompat.from(context)
             val channel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_NONE
+                channelId, channelName, NotificationManager.IMPORTANCE_NONE
             ).apply {
                 lockscreenVisibility = Notification.VISIBILITY_PRIVATE
             }
             notificationManager.createNotificationChannel(channel)
         }
     }
-    
+
     private fun updateNotification(
-        options: NotificationOptions,
-        notify: Boolean
+        options: NotificationOptions, notify: Boolean
     ) {
         val iconId = getDrawableId(options.iconName).let {
             if (it != 0) it else getDrawableId("Location background service")
         }
 
         try {
-            builder = builder
-                .setContentTitle(options.title)
-                .setSmallIcon(iconId)
-                .setContentText(options.subtitle)
-                .setSubText(options.description)
+            builder = builder.setContentTitle(options.title).setSmallIcon(iconId).setContentText(options.subtitle).setSubText(options.description)
         } catch (e: Exception) {
             Log.d("TAG", "error.")
         }
@@ -165,9 +146,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
 
         location = FlutterLocation(applicationContext, null)
         backgroundNotification = BackgroundNotification(
-            applicationContext,
-            CHANNEL_ID,
-            ONGOING_NOTIFICATION_ID
+            applicationContext, CHANNEL_ID, ONGOING_NOTIFICATION_ID
         )
     }
 
@@ -194,8 +173,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             activity?.let {
                 val locationPermissionState = ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    it, Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 )
                 locationPermissionState == PackageManager.PERMISSION_GRANTED
             } ?: throw ActivityNotFoundException()
@@ -208,12 +186,9 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             activity?.let {
                 ActivityCompat.requestPermissions(
-                    it,
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    ),
-                    REQUEST_PERMISSIONS_REQUEST_CODE
+                    it, arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    ), REQUEST_PERMISSIONS_REQUEST_CODE
                 )
             } ?: throw ActivityNotFoundException()
         } else {
@@ -244,8 +219,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         } else {
-            @Suppress("DEPRECATION")
-            stopForeground(true)
+            @Suppress("DEPRECATION") stopForeground(true)
         }
 
         isForeground = false
@@ -267,9 +241,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requestCode == REQUEST_PERMISSIONS_REQUEST_CODE && permissions.size == 2 &&
-            permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION && permissions[1] == Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requestCode == REQUEST_PERMISSIONS_REQUEST_CODE && permissions.size == 2 && permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION && permissions[1] == Manifest.permission.ACCESS_BACKGROUND_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 // Permissions granted, background mode can be enabled
                 enableBackgroundMode()
@@ -278,9 +250,7 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
             } else {
                 if (!shouldShowRequestBackgroundPermissionRationale()) {
                     result?.error(
-                        "PERMISSION_DENIED_NEVER_ASK",
-                        "Background location permission denied forever - please open app settings",
-                        null
+                        "PERMISSION_DENIED_NEVER_ASK", "Background location permission denied forever - please open app settings", null
                     )
                 } else {
                     result?.error("PERMISSION_DENIED", "Background location permission denied", null)
@@ -291,12 +261,11 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
         return false
     }
 
-    private fun shouldShowRequestBackgroundPermissionRationale(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            activity?.let {
-                ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            } ?: throw ActivityNotFoundException()
-        } else {
-            false
-        }
+    private fun shouldShowRequestBackgroundPermissionRationale(): Boolean = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        activity?.let {
+            ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        } ?: throw ActivityNotFoundException()
+    } else {
+        false
+    }
 }
