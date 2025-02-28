@@ -74,6 +74,7 @@ class BackgroundNotification(
             notificationManager.createNotificationChannel(channel)
         }
     }
+    
 private fun updateNotification(
     options: NotificationOptions,
     notify: Boolean
